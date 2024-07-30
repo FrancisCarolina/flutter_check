@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_check/home.dart';
+//import 'package:flutter_check/home.dart';
+import 'package:flutter_check/homeTileCheck.dart';
 
 void main() {
   runApp(const MyApp());
