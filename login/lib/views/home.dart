@@ -1,57 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart'; // Importa GetX para navegação
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Home> createState() => _HomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  bool cbIsSelected_1 = false;
-//teste
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(children: <Widget>[
-          const Text(
-                  "Login",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueAccent
-                  ),
-                ),
-            const SizedBox(height: 20), // Espaço entre o Text e o botão
-            ElevatedButton(
-              onPressed: () {
-                // Ação a ser executada quando o botão for pressionado
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Botão pressionado')),
-                );
-              },
-              child: const Text('Logar'),
-            ),
-            const SizedBox(height: 10), // Espaço entre o ElevatedButton e o TextButton
-            TextButton(
-              onPressed: () {
-                // Ação a ser executada quando o link for pressionado
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Link clicado')),
-                );
-              },
-              child: const Text(
-                'Ainda não tem uma conta? Cadastre-se',
-                style: TextStyle(
-                  color: Colors.blue, // Cor do texto para parecer um link
-                  decoration: TextDecoration.underline, // Sublinha o texto
-                ),
+      appBar: AppBar(
+        title: const Text('Home'), // Título da AppBar
+        actions: [
+          TextButton(
+            onPressed: () {
+              // Ação para deslogar
+              // Navega de volta para a página de login e limpa a pilha
+              Get.offAllNamed('/'); // Remove todas as páginas da pilha e navega para a página de login
+            },
+            child: const Text(
+              'Deslogar',
+              style: TextStyle(
+                color: Colors.white, // Cor do texto do botão
               ),
             ),
-        ],),
+          ),
+        ],
+      ),
+      body: Center( // Centraliza o Container vertical e horizontalmente
+        child: Container(
+          padding: const EdgeInsets.all(16.0), // Adiciona padding ao Container
+          child: const Text(
+            "Home",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
     );
   }
