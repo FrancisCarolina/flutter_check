@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart'; // Importa GetX para navegação
+import 'package:login/components/input_text_field.dart'; // Importa o componente InputTextField
 
 class Cadastrar extends StatefulWidget {
   const Cadastrar({super.key});
@@ -9,45 +9,104 @@ class Cadastrar extends StatefulWidget {
 }
 
 class _CadastrarState extends State<Cadastrar> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _loginController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cadastrar'), // Título da AppBar
+        title: const Text('Cadastrar'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back), // Ícone de seta para voltar
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Get.back();
+            Navigator.of(context).pop(); // Voltar para a tela anterior
           },
         ),
       ),
-      body: Center( // Centraliza o Container vertical e horizontalmente
-        child: Container(
-          padding: const EdgeInsets.all(16.0), // Adiciona padding ao Container
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, // Centraliza verticalmente
-            crossAxisAlignment: CrossAxisAlignment.center, // Centraliza horizontalmente
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text(
-                "Cadastrar",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+              InputTextField(
+                textEditingController: _nameController,
+                label: 'Nome',
+                onValidator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, insira seu nome';
+                  }
+                  return null;
+                },
+                icon: Icons.person,
               ),
-              const SizedBox(height: 20), // Espaço entre o texto e o botão
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.6, // Define a largura como 60% da tela
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Ação do botão de salvar
-                    // Adicione a lógica para salvar os dados aqui
+              const SizedBox(height: 16),
+              InputTextField(
+                textEditingController: _loginController,
+                label: 'Login',
+                onValidator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, insira seu login';
+                  }
+                  return null;
+                },
+                icon: Icons.person,
+              ),
+              const SizedBox(height: 16),
+              InputTextField(
+                textEditingController: _passwordController,
+                label: 'Senha',
+                hint: 'Digite sua senha',
+                onValidator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, insira sua senha';
+                  }
+                  return null;
+                },
+                icon: Icons.lock,
+                obscureText: true, // Torna o texto da senha oculto
+              ),
+              const SizedBox(height: 16),
+              InputTextField(
+                textEditingController: _confirmPasswordController,
+                label: 'Confirmação de Senha',
+                hint: 'Confirme sua senha',
+                onValidator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, confirme sua senha';
+                  }
+                  if (value != _passwordController.text) {
+                    return 'As senhas não coincidem';
+                  }
+                  return null;
+                },
+                icon: Icons.lock,
+                obscureText: true, // Torna o texto da senha oculto
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    // Aqui você pode adicionar a lógica para salvar os dados
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Dados salvos com sucesso')),
+                      SnackBar(content: Text('Cadastro realizado com sucesso')),
                     );
-                  },
-                  child: const Text('Salvar'),
+                    // Navegação para a página de login, por exemplo:
+                    Navigator.of(context).pop(); // Voltar para a tela anterior
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 56), // Largura completa e altura maior
+                  padding: const EdgeInsets.symmetric(vertical: 16.0), // Padding interno do botão
+                  textStyle: const TextStyle(fontSize: 18), // Tamanho da fonte
                 ),
+                child: const Text('Salvar'),
               ),
             ],
           ),

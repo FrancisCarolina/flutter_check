@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Importa GetX para navegação
-import 'package:login/components/input_text_field.dart.dart'; // Importa o componente InputTextField
+import 'package:login/components/input_text_field.dart'; // Importa o componente InputTextField
 
 class Login extends StatefulWidget {
   final String title;
