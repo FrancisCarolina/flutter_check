@@ -66,6 +66,11 @@ class _LoginState extends State<Login> {
                     Get.offNamed('/home');
                   }
                 },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 56), // Largura completa e altura maior
+                  padding: const EdgeInsets.symmetric(vertical: 16.0), // Padding interno do botão
+                  textStyle: const TextStyle(fontSize: 18), // Tamanho da fonte
+                ),
                 child: const Text('Logar'),
               ),
               const SizedBox(height: 16),
