@@ -67,8 +67,10 @@ class _LoginState extends State<Login> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 56), // Largura completa e altura maior
-                  padding: const EdgeInsets.symmetric(vertical: 16.0), // Padding interno do botão
+                  minimumSize: const Size(
+                      double.infinity, 56), // Largura completa e altura maior
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 16.0), // Padding interno do botão
                   textStyle: const TextStyle(fontSize: 18), // Tamanho da fonte
                 ),
                 child: const Text('Logar'),
@@ -76,7 +78,8 @@ class _LoginState extends State<Login> {
               const SizedBox(height: 16),
               GestureDetector(
                 onTap: () {
-                  Get.toNamed('/cadastrar'); // Navega para a página de cadastrar
+                  Get.toNamed(
+                      '/cadastrar'); // Navega para a página de cadastrar
                 },
                 child: const Text(
                   'Não tem uma conta? Cadastre-se',
