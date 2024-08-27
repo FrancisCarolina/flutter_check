@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart'; // Importa GetX para navegação
-import 'package:login/components/input_text_field.dart'; // Importa o componente InputTextField
+import 'package:get/get.dart';
+import 'package:login/helper/user_repository.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   final String title;
@@ -18,6 +19,8 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final userRepository = Provider.of<UserRepository>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -29,49 +32,52 @@ class _LoginState extends State<Login> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              InputTextField(
-                textEditingController: _loginController,
-                label: 'Login',
-                onValidator: (value) {
+              TextFormField(
+                controller: _loginController,
+                decoration: InputDecoration(labelText: 'Login'),
+                validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira seu login';
                   }
                   return null;
                 },
-                icon: Icons.person,
               ),
               const SizedBox(height: 16),
-              InputTextField(
-                textEditingController: _passwordController,
-                label: 'Senha',
-                hint: 'Digite sua senha',
-                onValidator: (value) {
+              TextFormField(
+                controller: _passwordController,
+                decoration: InputDecoration(labelText: 'Senha'),
+                obscureText: true,
+                validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira sua senha';
                   }
                   return null;
                 },
-                icon: Icons.lock,
-                obscureText: true, // Torna o texto da senha oculto
               ),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
-                    // Aqui você pode adicionar a lógica para login
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Login realizado com sucesso')),
-                    );
-                    // Navegação para a página Home, por exemplo:
-                    Get.offNamed('/home');
+                    final login = _loginController.text;
+                    final password = _passwordController.text;
+
+                    final user = userRepository.logar(login, password);
+
+                    if (user != null) {
+                      // Login bem-sucedido
+                      Get.offNamed('/home'); // Navega para a página Home
+                    } else {
+                      // Login falhou
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Login ou senha inválidos')),
+                      );
+                    }
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(
-                      double.infinity, 56), // Largura completa e altura maior
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 16.0), // Padding interno do botão
-                  textStyle: const TextStyle(fontSize: 18), // Tamanho da fonte
+                  minimumSize: const Size(double.infinity, 56),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  textStyle: const TextStyle(fontSize: 18),
                 ),
                 child: const Text('Logar'),
               ),

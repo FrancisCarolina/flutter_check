@@ -51,6 +51,8 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   mockito: ^5.0.17  # Verifique a versão mais recente
   build_runner: ^2.1.11
+  provider: ^6.0.5
+  shared_preferences: ^2.0.15
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

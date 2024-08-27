@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart'; // Importa GetX para navegação
+import 'package:get/get.dart';
+import 'package:login/helper/user_repository.dart';
+import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
   Widget build(BuildContext context) {
+    final userRepository = Provider.of<UserRepository>(context);
+    final currentUser = userRepository.currentUser;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'), // Título da AppBar
         actions: [
           TextButton(
             onPressed: () {
-              // Ação para deslogar
-              // Navega de volta para a página de login e limpa a pilha
-              Get.offAllNamed('/'); // Remove todas as páginas da pilha e navega para a página de login
+              userRepository.logout(); // Faz o logout
+              Get.offAllNamed(
+                  '/'); // Remove todas as páginas da pilha e navega para a página de login
             },
             child: const Text(
               'Deslogar',
@@ -30,12 +30,13 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      body: Center( // Centraliza o Container vertical e horizontalmente
+      body: Center(
+        // Centraliza o Container vertical e horizontalmente
         child: Container(
           padding: const EdgeInsets.all(16.0), // Adiciona padding ao Container
-          child: const Text(
-            "Home",
-            style: TextStyle(
+          child: Text(
+            "Bem-vindo, ${currentUser?.name ?? 'Usuário'}", // Exibe o nome do usuário
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
