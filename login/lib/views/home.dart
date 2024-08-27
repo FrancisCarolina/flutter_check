@@ -31,16 +31,17 @@ class Home extends StatelessWidget {
         ],
       ),
       body: Center(
-        // Centraliza o Container vertical e horizontalmente
         child: Container(
-          padding: const EdgeInsets.all(16.0), // Adiciona padding ao Container
-          child: Text(
-            "Bem-vindo, ${currentUser?.name ?? 'Usuário'}", // Exibe o nome do usuário
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          padding: const EdgeInsets.all(16.0),
+          child: currentUser?.name != null && currentUser!.name.isNotEmpty
+              ? Text(
+                  "Bem-vindo, ${currentUser.name}",
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              : Container(), // Retorna um Container vazio se o nome não estiver disponível
         ),
       ),
     );
